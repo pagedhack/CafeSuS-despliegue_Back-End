@@ -45,15 +45,15 @@ public class App
         });
 
 
-        // post("/login", (req, res)->{
-        //     String login = req.body();
-        //     Usuarios u = gson.fromJson(login, Usuarios.class);
+        post("/login", (req, res)->{
+            String login = req.body();
+            Usuarios u = gson.fromJson(login, Usuarios.class);
             
-        //     //json
-        //     //JsonObject objetoJson = new JsonObject();
-        //     return DAO.listaUsuarios();
-        //     //return objetoJson;
-        // });
+            //json
+            //JsonObject objetoJson = new JsonObject();
+            return DAO.listaUsuarios();
+            //return objetoJson;
+        });
 
     }
 
