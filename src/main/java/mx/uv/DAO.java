@@ -27,10 +27,6 @@ public class DAO {
             stm.setString(4, u.getNombre());
             stm.setString(5, u.getCorreo());
 
-            if (stm.executeUpdate() > 0)
-                msj = "usuario Agregado";
-            else
-                msj = "no agregado";
         } catch (Exception e) {
             System.out.print(e);
         } finally{

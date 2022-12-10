@@ -49,17 +49,11 @@ public class App
 
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
-                    System.out.println("usuario correcto");
                     if (xUsuario.getPassword().equals(u.getPassword())) {
                         objetoJson.addProperty("status", true);
                         objetoJson.addProperty("usuario", gson.toJson(xUsuario));
                         return objetoJson;
-                    }else{
-                        System.out.println("contraseña incorrecto");
                     }
-                }
-                else{
-                    System.out.println("usuario incorrecto");
                 }
             }
             return objetoJson;
