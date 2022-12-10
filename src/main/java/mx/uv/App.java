@@ -52,10 +52,7 @@ public class App
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
                     if (xUsuario.getPassword().equals(u.getPassword())) {
                         log = true;
-                        //objetoJson.addProperty("status", true);
-                        //objetoJson.addProperty("usuario", gson.toJson(xUsuario));
-                        //System.out.println("login" + log);
-                        //return objetoJson;
+                        return log;
                     }
                 }
             }
@@ -63,7 +60,7 @@ public class App
         });
 
 
-        post("/RegistroProducto", (req, res) -> {
+        post("/registroProducto", (req, res) -> {
             String producto = req.body();
             String id = UUID.randomUUID().toString();   
             Producto p = gson.fromJson(producto, Producto.class);
