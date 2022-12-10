@@ -18,7 +18,6 @@ public class App
     public static void main( String[] args )
     {
         port(getHerokuAssignedPort());
-        //port(80);
         //  CORS
         options("/*", (request, response) -> {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -34,9 +33,9 @@ public class App
         before((req, res) -> res.header("Access-Control-Allow-Origin", "*"));
         before((req, res) -> res.type("application/Json"));
 
-        get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
+        //get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
 
-        post("/reg", (req, res)->{
+        post("/registro", (req, res) -> {
             String registro = req.body();
             String id = UUID.randomUUID().toString();   
             Usuarios u = gson.fromJson(registro, Usuarios.class);
@@ -44,15 +43,28 @@ public class App
             return DAO.registroUsuario(u);
         });
 
-
         post("/login", (req, res)->{
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
-            
-            //json
-            //JsonObject objetoJson = new JsonObject();
-            return DAO.listaUsuarios();
-            //return objetoJson;
+            // devolver una respuesta JSON
+            JsonObject objetoJson = new JsonObject();
+
+            for (Usuarios xUsuario : DAO.listaUsuarios()) {
+                if (xUsuario.getUsuario().equals(u.getUsuario())) {
+                    System.out.println("usuario correcto");
+                    if (xUsuario.getPassword().equals(u.getPassword())) {
+                        objetoJson.addProperty("status", true);
+                        objetoJson.addProperty("usuario", gson.toJson(xUsuario));
+                        return objetoJson;
+                    }else{
+                        System.out.println("contraseña incorrecto");
+                    }
+                }
+                else{
+                    System.out.println("usuario incorrecto");
+                }
+            }
+            return objetoJson;
         });
 
     }
