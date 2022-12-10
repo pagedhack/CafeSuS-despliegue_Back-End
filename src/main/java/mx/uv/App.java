@@ -65,6 +65,15 @@ public class App
             return objetoJson;
         });
 
+
+        post("/RegistroProducto", (req, res) -> {
+            String producto = req.body();
+            String id = UUID.randomUUID().toString();   
+            Producto p = gson.fromJson(producto, Producto.class);
+            p.setId(id);
+            return DAOP.registroProducto(p);
+        });
+
     }
 
     static int getHerokuAssignedPort() {
