@@ -5,10 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-    private String Driver = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://db4free.net:3306/tablaparausuario";
-    private String user="samuelolmedo";
-    private String password="administrador";
+
+    //private static ProcessBuilder processBuilder = new ProcessBuilder();
+    
+    private static String Driver = "com.mysql.cj.jdbc.Driver";
+    private static String url = "jdbc:mysql://db4free.net:3306/tablaparausuario";
+    private static String user="samuelolmedo";
+    private static String password="administrador";
+
+    // private static String user= processBuilder.environment().get("USERDB");
+    // private static String password= processBuilder.environment().get("PASSDB");
 
     public Connection con;
 

@@ -42,21 +42,24 @@ public class App
         });
 
         post("/login", (req, res)->{
+            Boolean log = false;
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
             // devolver una respuesta JSON
-            JsonObject objetoJson = new JsonObject();
+            //JsonObject objetoJson = new JsonObject();
 
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
                     if (xUsuario.getPassword().equals(u.getPassword())) {
-                        objetoJson.addProperty("status", true);
-                        objetoJson.addProperty("usuario", gson.toJson(xUsuario));
-                        return objetoJson;
+                        log = true;
+                        //objetoJson.addProperty("status", true);
+                        //objetoJson.addProperty("usuario", gson.toJson(xUsuario));
+                        //System.out.println("login" + log);
+                        //return objetoJson;
                     }
                 }
             }
-            return objetoJson;
+            return log;
         });
 
 
