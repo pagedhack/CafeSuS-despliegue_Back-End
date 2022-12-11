@@ -3,9 +3,6 @@ package mx.uv;
 import static spark.Spark.*;
 import java.util.UUID;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.JsonObject;
 
@@ -50,26 +47,26 @@ public class App
 
         post("/producto-log", (req, res) -> {
             String producto = req.body();
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode node = mapper.readTree(producto);
-            String nombre = node.get("nombre").asText();
-            System.out.println("nombre: " + nombre);
-            
             System.out.println(producto);
 
-            Producto p = gson.fromJson(producto, Producto.class);
-            return DAOP.registroProducto(p);
+            // Producto p = gson.fromJson(producto, Producto.class);
+            // return DAOP.registroProducto(p);
+            return true;
         });
 
-
+        post("/reservacion-log", (req, res) -> {
+            String reservacion = req.body();
+            String id = UUID.randomUUID().toString();   
+            Reservacion r = gson.fromJson(reservacion, Reservacion.class);
+            r.setId(id);
+            return DAOR.registroReservacion(r);
+        });
 
         post("/login", (req, res)->{
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
             // devolver una respuesta JSON
             JsonObject objetoJson = new JsonObject();
-
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
                     if (xUsuario.getPassword().equals(u.getPassword())) {
