@@ -46,17 +46,24 @@ public class App
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
             // devolver una respuesta JSON
-            //JsonObject objetoJson = new JsonObject();
+            JsonObject objetoJson = new JsonObject();
 
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
                     if (xUsuario.getPassword().equals(u.getPassword())) {
-                        log = true;
-                        return log;
+                        
+                        res.status(200);// Codigo de respuesta
+                        // log = true;
+                        // return log;
+                        objetoJson.addProperty("status", true);
+                        objetoJson.addProperty("usuario", gson.toJson(xUsuario));
+                        return DAO.listaUsuarios();
                     }
                 }
             }
-            return log;
+            objetoJson.addProperty("status", false);
+            return objetoJson;
+            //return log;
         });
 
 
