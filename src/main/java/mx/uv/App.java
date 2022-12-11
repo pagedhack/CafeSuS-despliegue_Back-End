@@ -3,7 +3,11 @@ package mx.uv;
 import static spark.Spark.*;
 import java.util.UUID;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
+import com.google.gson.JsonObject;
 
 public class App 
 {
@@ -13,6 +17,7 @@ public class App
     /**
      * @param args
      */
+
     public static void main( String[] args )
     {
         port(getHerokuAssignedPort());
@@ -31,8 +36,10 @@ public class App
         before((req, res) -> res.header("Access-Control-Allow-Origin", "*"));
         before((req, res) -> res.type("application/Json"));
 
+
         get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
 
+        
         post("/registro", (req, res) -> {
             String registro = req.body();
             String id = UUID.randomUUID().toString();   
@@ -41,8 +48,23 @@ public class App
             return DAO.registroUsuario(u);
         });
 
+        post("/producto-log", (req, res) -> {
+            String producto = req.body();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode node = mapper.readTree(producto);
+            String nombre = node.get("nombre").asText();
+            System.out.println("nombre: " + nombre);
+            
+            System.out.println(producto);
+
+            Producto p = gson.fromJson(producto, Producto.class);
+            return DAOP.registroProducto(p);
+        });
+
+
+
         post("/login", (req, res)->{
-            Boolean log = false;
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
             // devolver una respuesta JSON
@@ -58,15 +80,6 @@ public class App
             }
             objetoJson.addProperty("status", false);
             return objetoJson;
-        });
-
-
-        post("/registroProducto", (req, res) -> {
-            String producto = req.body();
-            String id = UUID.randomUUID().toString();   
-            Producto p = gson.fromJson(producto, Producto.class);
-            p.setId(id);
-            return DAOP.registroProducto(p);
         });
 
     }
