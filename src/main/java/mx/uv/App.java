@@ -31,7 +31,7 @@ public class App
         before((req, res) -> res.header("Access-Control-Allow-Origin", "*"));
         before((req, res) -> res.type("application/Json"));
 
-        //get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
+        get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
 
         post("/registro", (req, res) -> {
             String registro = req.body();
@@ -51,19 +51,13 @@ public class App
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
                     if (xUsuario.getPassword().equals(u.getPassword())) {
-                        
-                        res.status(200);// Codigo de respuesta
-                        // log = true;
-                        // return log;
                         objetoJson.addProperty("status", true);
-                        objetoJson.addProperty("usuario", gson.toJson(xUsuario));
-                        return DAO.listaUsuarios();
+                        return objetoJson;
                     }
                 }
             }
             objetoJson.addProperty("status", false);
             return objetoJson;
-            //return log;
         });
 
 
