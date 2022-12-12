@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAO {
-
     public static Conexion con = new Conexion();
 
     public static String registroUsuario(Usuarios u) {

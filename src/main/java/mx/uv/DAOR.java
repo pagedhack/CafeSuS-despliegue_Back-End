@@ -2,7 +2,11 @@ package mx.uv;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOR {
     public static Conexion con = new Conexion();
@@ -49,4 +53,47 @@ public class DAOR {
         return msj;
     }
 
+    public static List<Reservacion> listaReservacion() {
+        Statement stm = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        List<Reservacion> resultado = new ArrayList<>();
+
+        conn = con.getConnection();
+
+        try {
+            String sql = "SELECT * from reservacion";
+            stm = (Statement) conn.createStatement();
+            rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                Reservacion r = new Reservacion(rs.getString("id"), rs.getString("fecha"), rs.getString("hora"), rs.getString("personas"), rs.getString("nombre"), rs.getString("correo"), rs.getString("telefono"));
+                resultado.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (rs != null)     
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            rs = null;
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                stm = null;
+            }
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return resultado;
+    }
 }

@@ -1,10 +1,10 @@
 package mx.uv;
 
 import static spark.Spark.*;
+
 import java.util.UUID;
 
 import com.google.gson.*;
-import com.google.gson.JsonObject;
 
 public class App 
 {
@@ -35,6 +35,8 @@ public class App
 
 
         get("/usuario", (req, res)-> gson.toJson(DAO.listaUsuarios()));
+        get("/reservaciones", (req, res)-> gson.toJson(DAOR.listaReservacion()));
+        // get("/productos", (req, res)-> gson.toJson(DAOR.listaReservacion()));
 
         
         post("/registro", (req, res) -> {
@@ -45,14 +47,17 @@ public class App
             return DAO.registroUsuario(u);
         });
 
-        post("/producto-log", (req, res) -> {
-            String producto = req.body();
-            System.out.println(producto);
-
-            // Producto p = gson.fromJson(producto, Producto.class);
-            // return DAOP.registroProducto(p);
-            return true;
-        });
+        // post("/producto-log", (req, res) -> {
+        //     String producto = req.body();
+        //     JSONObject obj = new JSONObject(producto);
+        //     System.out.print(obj);
+        //     System.out.print(obj.get("nombre").toString() + "\n");
+        //     // String nombre = obj.getJSONObject("nombre").toString();
+        //     // System.out.print(obj);
+        //     System.out.println(producto);
+        //     Producto p = gson.fromJson(producto, Producto.class);
+        //     return DAOP.registroProducto(p);
+        // });
 
         post("/reservacion-log", (req, res) -> {
             String reservacion = req.body();
@@ -65,7 +70,6 @@ public class App
         post("/login", (req, res)->{
             String login = req.body();
             Usuarios u = gson.fromJson(login, Usuarios.class);
-            // devolver una respuesta JSON
             JsonObject objetoJson = new JsonObject();
             for (Usuarios xUsuario : DAO.listaUsuarios()) {
                 if (xUsuario.getUsuario().equals(u.getUsuario())) {
