@@ -60,7 +60,7 @@ public class DAO {
             stm = (Statement) conn.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Usuarios u = new Usuarios(rs.getString("usuario"), rs.getString("password"));
+                Usuarios u = new Usuarios(rs.getString("id"), rs.getString("usuario"), rs.getString("password"),rs.getString("nombre"),rs.getString("mail"));
                 resultado.add(u);
             }
         } catch (Exception e) {
