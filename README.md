@@ -2,4 +2,4 @@
 
 Sistema de cafeteria en backend
 
-en springboot
+en Springboot - Maven
